@@ -1,5 +1,5 @@
 import pygame
-from view.components.button import Button
+from view.components.Button import Button
 from config import SCREENSIZE, BACKGROUND_COLOUR, SCREEN_NAME
 
 class View:
