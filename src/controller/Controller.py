@@ -1,15 +1,13 @@
-import tkinter as tk
+import keyboard
 from model.Model import Model
+from controller.Observer import Observer
 
+#Legacy maybe, probably don't use
+class Controller(Observer):
 
-class Controller:
-
-	def key(self,event):
-		print("Key: ", event.char)
-		self.model.update(event.char)
-	def __init__(self,model):
-		self.root = tk.Tk()
-		self.root.bind_all("<Key>", self.key)
-		self.model=model
-	def run(self):
-		self.root.mainloop()
+	def __init__(self,updateable):
+		self.updateable=updateable
+		print("Initialized controller")
+	def update(self):
+		if keyboard.read_key()!=None:
+			return None

@@ -1,5 +1,5 @@
 import pygame
-from view.components.Button import Button
+from view.components.BaseTetromino import BaseTetromino
 from config import SCREENSIZE, BACKGROUND_COLOUR, SCREEN_NAME
 from controller.Observer import Observer
 
