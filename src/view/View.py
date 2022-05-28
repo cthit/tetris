@@ -15,14 +15,13 @@ class View(Observer):
         pygame.display.update()
 
     def update(self):
-        # send events to controller
-        shouldContinueRunning = True
+        self.sprites.update()
+        self.updateScreen()
+    def updateScreen(self):
         self.screen.fill(self.bg_colour)
-        self.screen.blit(pygame.image.load(
-            r'resources/images/logo.png'), (SCREENSIZE[0]/2-200, 0))
         self.sprites.draw(self.screen)
         pygame.display.update()
-        return shouldContinueRunning
+
 
     def pressed(self,keys):
         self.sprites.update(keys)

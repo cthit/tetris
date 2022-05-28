@@ -8,7 +8,7 @@ from view.components.BaseTetromino import BaseTetromino
 
 def main():
     list_of_sprites = pygame.sprite.Group()
-    list_of_sprites.add(BaseTetromino("Test", (100, 100), (300, 300)))
+    list_of_sprites.add(BaseTetromino("+",(300, 50)))
     game_view = View(list_of_sprites)
     game_model = Model(game_view)
     game_controller = Controller(game_model)
