@@ -1,8 +1,9 @@
 import pygame
 from view.components.Button import Button
 from config import SCREENSIZE, BACKGROUND_COLOUR, SCREEN_NAME
+from controller.Observer import Observer
 
-class View:
+class View(Observer):
     def __init__(self, sprites_list):
         pygame.init()
         pygame.font.init()
@@ -22,3 +23,6 @@ class View:
         self.sprites.draw(self.screen)
         pygame.display.update()
         return shouldContinueRunning
+
+    def pressed(self,keys):
+        self.sprites.update(keys)

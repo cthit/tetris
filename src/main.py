@@ -4,7 +4,6 @@ from view.View import View
 from model.Model import Model
 from controller.Controller import Controller
 from view.components.Button import Button
-import _thread as tråd
 
 
 def main():
@@ -12,9 +11,9 @@ def main():
     list_of_sprites.add(Button("Test", (100, 100), (300, 300)))
     game_view = View(list_of_sprites)
     game_model = Model(game_view)
-    game_controller = Controller()
-    tråd.start_new_thread(game_model.run, ())
-    print("test")
+    game_controller = Controller(game_model)
+    game_model.update()
+    #game_controller.update()
     game_controller.run()
     print("Okay, bye!\n👋")
 

@@ -18,7 +18,7 @@ class Button(pygame.sprite.Sprite):
         self.rect.y=position[1]
 
 
-    def update(self,mousePosition,whichButton):
+    def update(self,whichButton):
         super().update(self)
-#        if whichButton == Key.Enter:
-#            print("Woooo, keypress")
+        if whichButton=="s":
+            self.rect.y=self.rect.y+10
