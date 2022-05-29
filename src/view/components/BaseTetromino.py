@@ -1,7 +1,7 @@
-from pickle import TRUE
+
 import pygame
 import keyboard
-from config import PLAY_WIDTH, STANDARD_FONT,FONT_SIZE,BUTTON_COLOUR,BLOCK_SIZE,PLAY_HEIGHT,WIDTH,HEIGHT
+from config import PLAY_WIDTH, STANDARD_FONT,FONT_SIZE,BUTTON_COLOUR,BLOCK_SIZE,PLAY_HEIGHT,WIDTH
 from controller.Observer import Observer
 from enum import Enum
 
@@ -74,7 +74,7 @@ class BaseTetromino(pygame.sprite.Sprite, Observer):
                     return True
             case dir.LEFT:
                 if self.rect.x-BLOCK_SIZE<middle-fieldWidth:
-                    return TRUE
+                    return True
             case dir.RIGHT:
                 if self.rect.x+BLOCK_SIZE>middle+fieldWidth:
                     return True
