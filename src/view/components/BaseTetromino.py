@@ -1,7 +1,15 @@
+from pickle import TRUE
 import pygame
 import keyboard
-from config import STANDARD_FONT,FONT_SIZE,BUTTON_COLOUR,BLOCK_SIZE
+from config import PLAY_WIDTH, STANDARD_FONT,FONT_SIZE,BUTTON_COLOUR,BLOCK_SIZE,PLAY_HEIGHT,WIDTH,HEIGHT
 from controller.Observer import Observer
+from enum import Enum
+
+class dir(Enum):
+    LEFT = 1
+    RIGHT = 2
+    DOWN = 3
+    UP = 4
 
 
 class BaseTetromino(pygame.sprite.Sprite, Observer):
@@ -35,13 +43,16 @@ class BaseTetromino(pygame.sprite.Sprite, Observer):
         keyboard.on_press_key('space', self.rotate)
 
     def down(self, event):
-        self.rect.y=self.rect.y+BLOCK_SIZE
+        if self.checkToMove(dir.DOWN):
+            self.rect.y=self.rect.y+BLOCK_SIZE
 
     def left(self, event):
-        self.rect.x=self.rect.x-BLOCK_SIZE
+        if self.checkToMove(dir.LEFT):
+            self.rect.x=self.rect.x-BLOCK_SIZE
 
     def right(self, event):
-        self.rect.x=self.rect.x+BLOCK_SIZE
+        if self.checkToMove(dir.RIGHT):
+            self.rect.x=self.rect.x+BLOCK_SIZE
 
     def rotate(self, event):
         posX=self.rect.x
@@ -50,3 +61,21 @@ class BaseTetromino(pygame.sprite.Sprite, Observer):
         self.rect=self.image.get_rect()
         self.rect.x=posX
         self.rect.y=posY
+
+    def checkToMove(self,dir):
+        return not self.isOutside(dir)
+
+    def isOutside(self,dir):
+        middle=WIDTH/2
+        fieldWidth=PLAY_WIDTH/2
+        match dir:
+            case dir.DOWN:
+                if self.rect.y+BLOCK_SIZE>PLAY_HEIGHT:
+                    return True
+            case dir.LEFT:
+                if self.rect.x-BLOCK_SIZE<middle-fieldWidth:
+                    return TRUE
+            case dir.RIGHT:
+                if self.rect.x+BLOCK_SIZE>middle+fieldWidth:
+                    return True
+        return False
