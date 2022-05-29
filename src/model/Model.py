@@ -2,8 +2,8 @@ import pygame
 from model.Playfield import Playfield
 from view.View import View
 from controller.Observer import Observer
-import time
-from config import FPS
+#import time
+from config import RUNNING
 
 class Model():
     def __init__(self,game_view=View(None)) -> None:
@@ -11,11 +11,7 @@ class Model():
         self.observers:List[Observer]= [game_view]
 
     def update(self) -> bool:
-        running = True
-        while(running):
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    running = False
+        while(RUNNING):
             for observer in self.observers:
                 observer.update()
-            time.sleep(1/FPS)
+            #time.sleep(1/FPS)

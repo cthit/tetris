@@ -1,6 +1,6 @@
 
 import pygame
-import keyboard
+#import keyboard
 from config import PLAY_WIDTH, STANDARD_FONT,FONT_SIZE,BUTTON_COLOUR,BLOCK_SIZE,PLAY_HEIGHT,WIDTH
 from controller.Observer import Observer
 from enum import Enum
@@ -17,10 +17,18 @@ class BaseTetromino(pygame.sprite.Sprite, Observer):
         pygame.sprite.Sprite.__init__(self)
         self.createImage(text)
         self.createRect(position)
-        self.setupKeyboard()
+        #self.setupKeyboard()
 
-    def update(self):
-        self.down(None)
+    def update(self,event):
+        if event==dir.DOWN:
+            self.down(None)
+        if event==dir.LEFT:
+            self.left(None)
+        if event==dir.RIGHT:
+            self.right(None)
+        if event==dir.UP:
+            self.rotate(None)
+
 
     def createImage(self,text):
         self.base_font=pygame.font.SysFont(STANDARD_FONT, FONT_SIZE)
@@ -36,11 +44,11 @@ class BaseTetromino(pygame.sprite.Sprite, Observer):
         self.rect.x=position[0]
         self.rect.y=position[1]
 
-    def setupKeyboard(self):
-        keyboard.on_press_key('a', self.left)
-        keyboard.on_press_key('d', self.right)
-        keyboard.on_press_key('s', self.down)
-        keyboard.on_press_key('space', self.rotate)
+    #def setupKeyboard(self):
+        #keyboard.on_press_key('a', self.left)
+        #keyboard.on_press_key('d', self.right)
+        #keyboard.on_press_key('s', self.down)
+        #keyboard.on_press_key('space', self.rotate)
 
     def down(self, event):
         if self.checkToMove(dir.DOWN):

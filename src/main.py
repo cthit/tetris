@@ -13,7 +13,7 @@ def main():
     list_of_sprites.add(Playfield())
     game_view = View(list_of_sprites)
     game_model = Model(game_view)
-    game_controller = Controller(game_model)
+    #game_controller = Controller(game_model)
     game_model.update()
     #game_controller.update()
     #game_controller.run()
