@@ -14,8 +14,10 @@ class dir(Enum):
 class BaseTetromino(pygame.sprite.Sprite, Observer):
     def __init__(self,position,layout,size):
         pygame.sprite.Sprite.__init__(self)
+        self.rot=1
         self.layout=layout
-        self.createImage(size)
+        self.size=size
+        self.createImage()
         self.createRect(position)
         self.locked=False
 
@@ -34,9 +36,9 @@ class BaseTetromino(pygame.sprite.Sprite, Observer):
             self.rotate(None)
 
 
-    def createImage(self,size):
+    def createImage(self):
         self.colour=BUTTON_COLOUR
-        self.image = pygame.Surface((BLOCK_SIZE*size[0], BLOCK_SIZE*size[1])).convert_alpha()
+        self.image = pygame.Surface((BLOCK_SIZE*self.size[0], BLOCK_SIZE*self.size[1])).convert_alpha()
         self.image.fill((0,0,0,0))
 
     def createRect(self,position):
@@ -61,12 +63,17 @@ class BaseTetromino(pygame.sprite.Sprite, Observer):
             self.rect.x=self.rect.x+BLOCK_SIZE
 
     def rotate(self, event):
+        self.rot=(self.rot+1)%2
         posX=self.rect.x
         posY=self.rect.y
         self.image=pygame.transform.rotate(self.image,90)
         self.rect=self.image.get_rect()
         self.rect.x=posX
         self.rect.y=posY
+        while self.isOutside(dir.LEFT):
+            self.rect.x=self.rect.x+BLOCK_SIZE
+        while self.isOutside(dir.RIGHT):
+            self.rect.x=self.rect.x-BLOCK_SIZE
 
     def checkToMove(self,dir):
         return not self.isOutside(dir)
@@ -76,7 +83,7 @@ class BaseTetromino(pygame.sprite.Sprite, Observer):
         fieldWidth=PLAY_WIDTH/2
         match dir:
             case dir.DOWN:
-                if self.rect.y+BLOCK_SIZE>PLAY_HEIGHT:
+                if self.rect.y+BLOCK_SIZE*self.size[self.rot]>PLAY_HEIGHT:
                     self.locked=True
                     return True
             case dir.LEFT:
