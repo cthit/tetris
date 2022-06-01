@@ -9,7 +9,7 @@ from model.Playfield import Playfield
 
 def main():
     list_of_sprites = pygame.sprite.Group()
-    list_of_sprites.add(BaseTetromino("+",(WIDTH/2+1, 0)))
+    list_of_sprites.add(BaseTetromino((WIDTH/2+1, 0)))
     list_of_sprites.add(Playfield())
     game_view = View(list_of_sprites)
     game_model = Model(game_view)

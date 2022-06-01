@@ -13,9 +13,9 @@ class dir(Enum):
 
 
 class BaseTetromino(pygame.sprite.Sprite, Observer):
-    def __init__(self, text, position):
+    def __init__(self,position):
         pygame.sprite.Sprite.__init__(self)
-        self.createImage(text)
+        self.createImage()
         self.createRect(position)
         self.locked=False
         #self.setupKeyboard()
@@ -34,15 +34,12 @@ class BaseTetromino(pygame.sprite.Sprite, Observer):
             self.rotate(None)
 
 
-    def createImage(self,text):
+    def createImage(self):
         self.colour=BUTTON_COLOUR
         self.base_font=pygame.font.SysFont(STANDARD_FONT, FONT_SIZE)
         self.image = pygame.Surface((BLOCK_SIZE, BLOCK_SIZE))
         self.image.fill(self.colour)
-        #Text is temporary
-        self.text=self.base_font.render(text, True, (0, 0, 0))
-        self.textrect=self.text.get_rect(center=self.image.get_rect().center)
-        self.image.blit(self.text,self.textrect)
+        #self.image.blit(self.text,self.textrect)
 
     def createRect(self,position):
         self.rect=self.image.get_rect()
