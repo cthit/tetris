@@ -1,7 +1,6 @@
 
 import pygame
-#import keyboard
-from config import PLAY_WIDTH, STANDARD_FONT,FONT_SIZE,BUTTON_COLOUR,BLOCK_SIZE,PLAY_HEIGHT,WIDTH,LOCKED_COLOUR
+from config import PLAY_WIDTH, BUTTON_COLOUR,BLOCK_SIZE,PLAY_HEIGHT,WIDTH,LOCKED_COLOUR
 from controller.Observer import Observer
 from enum import Enum
 
@@ -13,12 +12,13 @@ class dir(Enum):
 
 
 class BaseTetromino(pygame.sprite.Sprite, Observer):
-    def __init__(self,position,layout):
+    def __init__(self,position,layout,size):
         pygame.sprite.Sprite.__init__(self)
-        self.createImage()
-        self.createRect(position,layout)
+        self.layout=layout
+        self.createImage(size)
+        self.createRect(position)
         self.locked=False
-        #self.setupKeyboard()
+
 
     def update(self,event):
         if self.locked:
@@ -34,24 +34,19 @@ class BaseTetromino(pygame.sprite.Sprite, Observer):
             self.rotate(None)
 
 
-    def createImage(self):
+    def createImage(self,size):
         self.colour=BUTTON_COLOUR
-        self.image = pygame.Surface((BLOCK_SIZE*6, BLOCK_SIZE*6)).convert_alpha()
+        self.image = pygame.Surface((BLOCK_SIZE*size[0], BLOCK_SIZE*size[1])).convert_alpha()
         self.image.fill((0,0,0,0))
 
-    def createRect(self,position,layout):
-        layout=self.blockify(layout)
-        self.rect=pygame.draw.lines(self.image,self.colour,False,layout,width=2*BLOCK_SIZE)
+    def createRect(self,position):
+        self.blockify()
+        self.rect=pygame.draw.lines(self.image,self.colour,False,self.layout,width=2*BLOCK_SIZE)
         self.rect.x=position[0]
         self.rect.y=position[1]
 
-    def blockify(self,layout):
-        return [(x*BLOCK_SIZE,y*BLOCK_SIZE) for x,y in layout]
-    #def setupKeyboard(self):
-        #keyboard.on_press_key('a', self.left)
-        #keyboard.on_press_key('d', self.right)
-        #keyboard.on_press_key('s', self.down)
-        #keyboard.on_press_key('space', self.rotate)
+    def blockify(self):
+        self.layout = [(x*BLOCK_SIZE,y*BLOCK_SIZE) for x,y in self.layout]
 
     def down(self, event):
         if self.checkToMove(dir.DOWN):

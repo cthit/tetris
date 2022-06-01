@@ -5,10 +5,10 @@ from controller.Observer import Observer
 
 
 class View(Observer):
-    def __init__(self, sprites_list):
+    def __init__(self,running, sprites_list):
         pygame.init()
         pygame.font.init()
-
+        self.running=running
         self.screen = pygame.display.set_mode(SCREENSIZE)
         self.bg_colour = BACKGROUND_COLOUR
         self.sprites = sprites_list
@@ -29,10 +29,10 @@ class View(Observer):
     def getInput(self):
         for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    RUNNING = False
+                    self.running[0]=False
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
-                        RUNNING = False
+                        self.running[0] = False
                     if event.key == pygame.K_LEFT:
                         self.sprites.update(dir.LEFT)
                     if event.key == pygame.K_RIGHT:

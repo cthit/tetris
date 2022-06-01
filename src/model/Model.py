@@ -2,15 +2,15 @@ import pygame
 from model.Playfield import Playfield
 from view.View import View
 from controller.Observer import Observer
-from config import RUNNING
 
 class Model():
-    def __init__(self,game_view=View(None)) -> None:
+    def __init__(self,running,game_view=View(None,None)) -> None:
         self.playfield: Playfield = Playfield()
-        self.observers:List[Observer]= [game_view]
+        self.observers:list[Observer]= [game_view]
+        self.running=running
 
     def update(self) -> bool:
-        while(RUNNING):
+        while(self.running[0]):
             for observer in self.observers:
                 observer.update()
             #time.sleep(1/FPS)
