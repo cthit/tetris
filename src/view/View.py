@@ -2,7 +2,7 @@ import pygame
 from view.components.BaseTetromino import BaseTetromino,dir
 from config import SCREENSIZE, BACKGROUND_COLOUR, SCREEN_NAME,RUNNING,U_FREQUENCY
 from controller.Observer import Observer
-import time
+
 
 class View(Observer):
     def __init__(self, sprites_list):

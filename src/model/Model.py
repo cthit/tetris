@@ -2,7 +2,6 @@ import pygame
 from model.Playfield import Playfield
 from view.View import View
 from controller.Observer import Observer
-#import time
 from config import RUNNING
 
 class Model():

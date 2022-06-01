@@ -1,7 +1,7 @@
 
 import pygame
 #import keyboard
-from config import PLAY_WIDTH, STANDARD_FONT,FONT_SIZE,BUTTON_COLOUR,BLOCK_SIZE,PLAY_HEIGHT,WIDTH
+from config import PLAY_WIDTH, STANDARD_FONT,FONT_SIZE,BUTTON_COLOUR,BLOCK_SIZE,PLAY_HEIGHT,WIDTH,LOCKED_COLOUR
 from controller.Observer import Observer
 from enum import Enum
 
@@ -17,9 +17,13 @@ class BaseTetromino(pygame.sprite.Sprite, Observer):
         pygame.sprite.Sprite.__init__(self)
         self.createImage(text)
         self.createRect(position)
+        self.locked=False
         #self.setupKeyboard()
 
     def update(self,event):
+        if self.locked:
+            self.colour=LOCKED_COLOUR
+            return
         if event==dir.DOWN:
             self.down(None)
         if event==dir.LEFT:
@@ -31,9 +35,10 @@ class BaseTetromino(pygame.sprite.Sprite, Observer):
 
 
     def createImage(self,text):
+        self.colour=BUTTON_COLOUR
         self.base_font=pygame.font.SysFont(STANDARD_FONT, FONT_SIZE)
         self.image = pygame.Surface((BLOCK_SIZE, BLOCK_SIZE))
-        self.image.fill(BUTTON_COLOUR)
+        self.image.fill(self.colour)
         #Text is temporary
         self.text=self.base_font.render(text, True, (0, 0, 0))
         self.textrect=self.text.get_rect(center=self.image.get_rect().center)
@@ -79,6 +84,7 @@ class BaseTetromino(pygame.sprite.Sprite, Observer):
         match dir:
             case dir.DOWN:
                 if self.rect.y+BLOCK_SIZE>PLAY_HEIGHT:
+                    self.locked=True
                     return True
             case dir.LEFT:
                 if self.rect.x-BLOCK_SIZE<middle-fieldWidth:
