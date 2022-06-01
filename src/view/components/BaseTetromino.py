@@ -13,10 +13,10 @@ class dir(Enum):
 
 
 class BaseTetromino(pygame.sprite.Sprite, Observer):
-    def __init__(self,position):
+    def __init__(self,position,layout):
         pygame.sprite.Sprite.__init__(self)
         self.createImage()
-        self.createRect(position)
+        self.createRect(position,layout)
         self.locked=False
         #self.setupKeyboard()
 
@@ -36,16 +36,17 @@ class BaseTetromino(pygame.sprite.Sprite, Observer):
 
     def createImage(self):
         self.colour=BUTTON_COLOUR
-        self.base_font=pygame.font.SysFont(STANDARD_FONT, FONT_SIZE)
-        self.image = pygame.Surface((BLOCK_SIZE, BLOCK_SIZE))
-        self.image.fill(self.colour)
-        #self.image.blit(self.text,self.textrect)
+        self.image = pygame.Surface((BLOCK_SIZE*6, BLOCK_SIZE*6)).convert_alpha()
+        self.image.fill((0,0,0,0))
 
-    def createRect(self,position):
-        self.rect=self.image.get_rect()
+    def createRect(self,position,layout):
+        layout=self.blockify(layout)
+        self.rect=pygame.draw.lines(self.image,self.colour,False,layout,width=2*BLOCK_SIZE)
         self.rect.x=position[0]
         self.rect.y=position[1]
 
+    def blockify(self,layout):
+        return [(x*BLOCK_SIZE,y*BLOCK_SIZE) for x,y in layout]
     #def setupKeyboard(self):
         #keyboard.on_press_key('a', self.left)
         #keyboard.on_press_key('d', self.right)
@@ -89,4 +90,6 @@ class BaseTetromino(pygame.sprite.Sprite, Observer):
             case dir.RIGHT:
                 if self.rect.x+BLOCK_SIZE>middle+fieldWidth:
                     return True
+            case dir.UP:
+                return self.isOutside(dir.RIGHT)|self.isOutside(dir.LEFT)
         return False
