@@ -90,7 +90,7 @@ class BaseTetromino(pygame.sprite.Sprite, Observer):
                 if self.rect.x-BLOCK_SIZE<middle-fieldWidth:
                     return True
             case dir.RIGHT:
-                if self.rect.x+BLOCK_SIZE>middle+fieldWidth:
+                if self.rect.x+BLOCK_SIZE*self.size[(self.rot+1)%2]>middle+fieldWidth:
                     return True
             case dir.UP:
                 return self.isOutside(dir.RIGHT)|self.isOutside(dir.LEFT)
