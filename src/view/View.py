@@ -1,6 +1,6 @@
 import pygame
 from view.components.BaseTetromino import BaseTetromino, dir
-from config import SCREENSIZE, BACKGROUND_COLOUR, SCREEN_NAME, U_FREQUENCY
+from config import SCREENSIZE, BACKGROUND_COLOUR, SCREEN_NAME, U_FREQUENCY, WIDTH
 from controller.Observer import Observer
 
 
@@ -13,6 +13,9 @@ class View(Observer):
         self.screen = pygame.display.set_mode(SCREENSIZE)
         self.bg_colour = BACKGROUND_COLOUR
         self.sprites = sprites_list
+        self.current=BaseTetromino((WIDTH / 2 + 1, 0), [(0, 0), (1, 0), (2, 0), (2, 2)],
+                      (3, 2))
+        self.sprites.add(self.current)
         pygame.display.set_caption(SCREEN_NAME)
         pygame.display.update()
         self.MOVE_DOWN = pygame.USEREVENT + 1
@@ -21,6 +24,7 @@ class View(Observer):
     def update(self):
         self.updateScreen()
         self.getInput()
+        self.checkTetromino()
 
     def updateScreen(self):
         self.screen.fill(self.bg_colour)
@@ -35,6 +39,13 @@ class View(Observer):
                 self.checkKeys(event)
             if event.type == self.MOVE_DOWN:
                 self.sprites.update(dir.DOWN)
+
+    def checkTetromino(self):
+        if self.current.locked:
+            self.sprites.remove(self.current)
+            self.current=BaseTetromino((WIDTH / 2 + 1, 0), [(0, 0), (1, 0), (2, 0), (2, 2)],
+                      (3, 2))
+            self.sprites.add(self.current)
 
     def checkKeys(self,event):
         if event.key == pygame.K_ESCAPE:
