@@ -95,3 +95,11 @@ class BaseTetromino(pygame.sprite.Sprite, Observer):
             case dir.UP:
                 return self.isOutside(dir.RIGHT)|self.isOutside(dir.LEFT)
         return False
+
+    def getPosition(self):
+        retList=[]
+        print(self.layout)
+        for x,y in self.layout:
+            retList.append([(int)(x/BLOCK_SIZE)+(int)((self.rect.x-PLAY_WIDTH)/BLOCK_SIZE)-6,(int)(y/BLOCK_SIZE)+(int)(self.rect.y/BLOCK_SIZE)])
+        print(retList)
+        return retList
