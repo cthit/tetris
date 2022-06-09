@@ -59,7 +59,7 @@ class View(Observer):
             self.sprites.update(dir.UP)
 
     def updateTetromino(self):
-        if self.checkCollision(self.current.getPosition()):
+        if self.checkCollision(self.current.getPosition()) or self.current.locked:
             self.addBlob(self.current.getPosition())
             self.checkLines()
             self.sprites.remove(self.current)

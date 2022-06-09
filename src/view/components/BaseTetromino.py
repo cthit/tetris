@@ -100,6 +100,7 @@ class BaseTetromino(pygame.sprite.Sprite, Observer):
         retList=[]
         print(self.layout)
         for x,y in self.layout:
-            retList.append([(int)(x/BLOCK_SIZE)+(int)((self.rect.x-PLAY_WIDTH)/BLOCK_SIZE)-6,(int)(y/BLOCK_SIZE)+(int)(self.rect.y/BLOCK_SIZE)])
+            print((self.rect.y-BLOCK_SIZE)/BLOCK_SIZE)
+            retList.append([(int)(x/BLOCK_SIZE)+(int)((self.rect.x-PLAY_WIDTH)/BLOCK_SIZE)-6,(int)(y/BLOCK_SIZE)+(int)((self.rect.y-BLOCK_SIZE)/BLOCK_SIZE)])
         print(retList)
         return retList
