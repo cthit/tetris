@@ -63,8 +63,5 @@ class BaseTetromino:
     """
     return list(zip(*tetromino[::-1]))
 
-  def __str__(self):
-    return str(self.__tetromino)
-
 
   
