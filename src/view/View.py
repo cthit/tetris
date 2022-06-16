@@ -18,8 +18,8 @@ class View(Observer):
         self.screen = pygame.display.set_mode(SCREENSIZE)
         self.bg_colour = BACKGROUND_COLOUR
         self.sprites = sprites_list
-        self.current=BaseTetromino((WIDTH / 2 + 1, 0), [(0, 0), (1, 0), (2, 0), (2, 2)],
-                      (3, 2))
+        self.current=BaseTetromino((WIDTH / 2 + 1, 0), [(1,1),(2,1),(2,2),(2,3)],
+                      (2, 2))
         self.sprites.add(self.current)
         pygame.display.set_caption(SCREEN_NAME)
         pygame.display.update()
