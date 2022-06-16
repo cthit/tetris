@@ -1,6 +1,8 @@
+from random import randint
 import pygame
 from config import *
 from enum import Enum
+from TetrominoFactory import TetrominoFactory
 
 
 class type(Enum):
@@ -27,11 +29,12 @@ class Game:
 		pass
 
 	def mainLoop(self):
-		self.getInput()
-		self.tick+=1
-		self.update()
-		self.draw()
-		self.gClock.tick(FRAMERATE)
+		while True:
+			self.getInput()
+			self.tick+=1
+			self.update()
+			self.draw()
+			self.gClock.tick(FRAMERATE)
 
 	def deleteComplete(self):
 		newBoard=[]
@@ -46,7 +49,7 @@ class Game:
 				newBoard.append(row)
 
 	def createTetromino(self):
-		pass
+		self.tetromino=TetrominoFactory.create_tetromino(TetrominoFactory.types[randint(0,len(TetrominoFactory.types))], 0, 0)
 
 	def draw(self):
 		# Draw screen background
@@ -62,6 +65,8 @@ class Game:
 
 	def getInput(self):
 		pass
+	def moveDown(self):
+		return True
 	def update(self):
 		if self.gClock.get_fps()/self.tick>FALLRATE:
 			self.tick=0

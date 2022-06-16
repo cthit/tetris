@@ -5,9 +5,10 @@ import pygame
 def tetris_loop():
 	game=Game()
 	print(game.board)
+	game.mainLoop()
 
 
-	
+
 
 
 
