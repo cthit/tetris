@@ -1,3 +1,4 @@
+import pygame
 class BaseTetromino:
   """
   Base tetromino class, that contains shared logic for all tetrominoes.
@@ -7,6 +8,16 @@ class BaseTetromino:
     self.__x = x
     self.__y = y
     self.__tetromino = tetromino.copy()
+
+  def handle_keypress(self, key):
+    if key is pygame.K_LEFT:
+      self.move_left()
+    elif key is pygame.K_RIGHT:
+      self.move_right()
+    elif key is pygame.K_DOWN:
+      self.move_down()
+    elif (key is pygame.K_UP) or (key is pygame.K_SPACE):
+      self.rotate()
 
   def get_tetromino(self):
     """
@@ -62,6 +73,3 @@ class BaseTetromino:
     Rotates the tetromino clockwise.
     """
     return list(zip(*tetromino[::-1]))
-
-
-  

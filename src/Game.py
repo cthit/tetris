@@ -32,9 +32,13 @@ class Game:
 		while True:
 			self.getInput()
 			self.tick+=1
+			self.checkTetromino()
 			self.update()
 			self.draw()
 			self.gClock.tick(FRAMERATE)
+
+	def checkTetromino(self):
+		pass
 
 	def deleteComplete(self):
 		newBoard=[]
@@ -49,6 +53,7 @@ class Game:
 				newBoard.append(row)
 
 	def createTetromino(self):
+		print(TetrominoFactory.types)
 		self.tetromino=TetrominoFactory.create_tetromino(TetrominoFactory.types[randint(0,len(TetrominoFactory.types))], 0, 0)
 
 	def draw(self):
@@ -64,11 +69,18 @@ class Game:
 					pygame.draw.rect(self.screen, BLUE, (x*BLOCKSIZE, y*BLOCKSIZE, BLOCKSIZE, BLOCKSIZE))
 
 	def getInput(self):
-		pass
+		for event in pygame.event.get():
+			if event.type is pygame.KEYDOWN:
+				if event.key is pygame.K_ESCAPE:
+					self.gameOver()
+				else:
+					self.tetromino.handle_keypress(event.key)
+
 	def moveDown(self):
 		return True
+
 	def update(self):
-		if self.gClock.get_fps()/self.tick>FALLRATE:
+		if self.tick>FRAMERATE*FALLRATE:
 			self.tick=0
 			if not self.moveDown():
 				self.insertTetromino()

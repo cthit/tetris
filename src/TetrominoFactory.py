@@ -31,7 +31,7 @@ class TetrominoFactory:
 					[0, 0, 0],
 					[0, 0, 0]]
 	}
-	self.types = tetrominoes.keys()
+	types = ['I','J','L','O','S','T','Z']
 	@staticmethod
 	def create_tetromino(tetromino_type: str, x: int, y: int):
 		"""
