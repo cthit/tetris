@@ -74,7 +74,7 @@ class Game:
 				if event.key is pygame.K_ESCAPE:
 					self.gameOver()
 				else:
-					self.tetromino.handle_keypress(event.key)
+					self.tetromino.handle_keypress(event.key,self.board)
 
 	def moveDown(self):
 		return True
