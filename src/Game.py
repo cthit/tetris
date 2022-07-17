@@ -5,11 +5,6 @@ from enum import Enum
 from TetrominoFactory import TetrominoFactory
 
 
-class type(Enum):
-	moving = 1
-	static = 2
-	empty = 3
-
 class Game:
 	def __init__(self):
 		self.board=self.createBoard()
@@ -28,7 +23,14 @@ class Game:
 	def insertTetromino(self):
 		tetro=self.tetromino.get_tetromino()
 		baseX=self.tetromino.get_x()
-		pass
+		baseY=self.tetromino.get_y()
+		for y in range(len(tetro)):
+			currY=baseY+y
+			for x in range(len(tetro[y])):
+				currX=baseX+x
+				if tetro[y][x]==1:
+					self.board[currY][currX]=1
+		print(self.board)
 
 	def mainLoop(self):
 		while True:
@@ -48,12 +50,14 @@ class Game:
 		for row in self.board:
 			complete=True
 			for block in row:
-				if not block is type.static:
+				if not block ==1:
 					complete=False
 			if complete:
-				newBoard.insert(0,[type.empty for x in range(WIDTH)])
+				newBoard.insert(0,[0 for i in range(WIDTH)])
 			else:
 				newBoard.append(row)
+		self.board=newBoard
+
 
 	def createTetromino(self):
 		#print(TetrominoFactory.types)
@@ -78,7 +82,7 @@ class Game:
 		# Draw static blocks
 		for y in range(len(self.board)):
 			for x in range(len(self.board[y])):
-				if self.board[y][x] == 2:
+				if self.board[y][x] == 1:
 
 					pygame.draw.rect(self.screen, BLUE, pygame.Rect(x*BLOCKSIZE, y*BLOCKSIZE, BLOCKSIZE, BLOCKSIZE))
 		pygame.display.flip()
@@ -99,5 +103,6 @@ class Game:
 			self.tick=0
 			if not self.moveDown():
 				self.insertTetromino()
+				self.deleteComplete()
 				if not self.createTetromino():
 					self.gameOver()
