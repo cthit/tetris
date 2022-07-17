@@ -26,6 +26,8 @@ class Game:
 		return [[0 for x in range(WIDTH)] for y in range(HEIGHT)]
 
 	def insertTetromino(self):
+		tetro=self.tetromino.get_tetromino()
+		baseX=self.tetromino.get_x()
 		pass
 
 	def mainLoop(self):
@@ -35,6 +37,7 @@ class Game:
 			self.checkTetromino()
 			self.update()
 			self.draw()
+			#print(self.tetromino.get_coordinates())
 			self.gClock.tick(FRAMERATE)
 
 	def checkTetromino(self):
@@ -53,31 +56,43 @@ class Game:
 				newBoard.append(row)
 
 	def createTetromino(self):
-		print(TetrominoFactory.types)
-		self.tetromino=TetrominoFactory.create_tetromino(TetrominoFactory.types[randint(0,len(TetrominoFactory.types))], 0, 0)
+		#print(TetrominoFactory.types)
+		self.tetromino=TetrominoFactory.create_tetromino(TetrominoFactory.types[randint(0,len(TetrominoFactory.types)-1)], 1, 4)
+		return True
 
 	def draw(self):
 		# Draw screen background
 		self.screen.fill(BLACK)
 
 		# Draw tetromino
+		(tetX,tetY)=self.tetromino.get_coordinates()
+		shape=self.tetromino.get_tetromino()
+		for y in range(len(shape)):
+			for x in range(len(shape[y])):
+				if(shape[y][x]) is 1:
+					#print(tetX+x)
+					pygame.draw.rect(self.screen,WHITE,[(tetX+x)*BLOCKSIZE,(tetY+y)*BLOCKSIZE,BLOCKSIZE,BLOCKSIZE],0)
+
+
 
 		# Draw static blocks
 		for y in range(len(self.board)):
-			for x in range(len(self.board[0])):
-				if self.board[y][x] is type.static:
-					pygame.draw.rect(self.screen, BLUE, (x*BLOCKSIZE, y*BLOCKSIZE, BLOCKSIZE, BLOCKSIZE))
+			for x in range(len(self.board[y])):
+				if self.board[y][x] == 2:
+
+					pygame.draw.rect(self.screen, BLUE, pygame.Rect(x*BLOCKSIZE, y*BLOCKSIZE, BLOCKSIZE, BLOCKSIZE))
+		pygame.display.flip()
 
 	def getInput(self):
 		for event in pygame.event.get():
-			if event.type is pygame.KEYDOWN:
+			if event.type == pygame.KEYDOWN:
 				if event.key is pygame.K_ESCAPE:
 					self.gameOver()
 				else:
 					self.tetromino.handle_keypress(event.key,self.board)
 
 	def moveDown(self):
-		return True
+		return self.tetromino.move_down(self.board)
 
 	def update(self):
 		if self.tick>FRAMERATE*FALLRATE:

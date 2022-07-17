@@ -1,4 +1,5 @@
 import pygame
+from config import *
 class BaseTetromino:
   """
   Base tetromino class, that contains shared logic for all tetrominoes.
@@ -10,12 +11,12 @@ class BaseTetromino:
     self.__tetromino = tetromino.copy()
 
   def handle_keypress(self, key, board):
-    if key is pygame.K_LEFT:
+    if key is pygame.K_LEFT or key is pygame.K_a:
       self.move_left(board)
-    elif key is pygame.K_RIGHT:
+    elif key is pygame.K_RIGHT or key is pygame.K_d:
       self.move_right(board)
-    elif key is pygame.K_DOWN:
-      self.move_down()
+    elif key is pygame.K_DOWN or key is pygame.K_s:
+      self.move_down(board)
     elif (key is pygame.K_UP) or (key is pygame.K_SPACE):
       self.rotate()
 
@@ -59,18 +60,35 @@ class BaseTetromino:
 
   def check_move_x(self,board,toMove):
     figure=self.__tetromino
-    for x in range(len(figure)):
-      for y in range(len(figure)):
-        if figure[x][y] == 1:
-          if (board[self.__y+y][self.__x+x+toMove] == 1) or (self.__x+x+toMove<0):
+    for y in range(len(figure)):
+      for x in range(len(figure[0])):
+        print(f"y:{self.__y+y}, x:{self.__x+x+toMove}")
+        if figure[y][x] == 1:
+          if (self.__x+x+toMove<0) or (self.__x+x+toMove>=WIDTH):
+            return 0
+          if (board[self.__y+y][self.__x+x+toMove] == 1):
             return 0
     return toMove
 
-  def move_down(self):
+  def check_move_y(self,board,toMove):
+    figure=self.__tetromino
+    for y in range(len(figure)):
+      for x in range(len(figure[0])):
+        if figure[y][x]==1:
+          if (self.__y+y+toMove<0) or (self.__y+y+toMove>=HEIGHT):
+            return False
+          if (board[self.__y+y+toMove][self.__x+x] == 1):
+            return False
+    return True
+
+  def move_down(self,board):
     """
     Moves the tetromino one row down.
     """
-    self.__y += 1
+    if self.check_move_y(board,1):
+      self.__y += 1
+      return True
+    return False
 
   def rotate(self):
     """
