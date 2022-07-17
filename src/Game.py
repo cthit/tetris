@@ -36,17 +36,16 @@ class Game:
 		while True:
 			self.getInput()
 			self.tick+=1
-			self.checkTetromino()
 			self.update()
 			self.draw()
 			#print(self.tetromino.get_coordinates())
 			self.gClock.tick(FRAMERATE)
 
-	def checkTetromino(self):
-		pass
 
 	def deleteComplete(self):
 		newBoard=[]
+		if self.board[0][4]==1:
+			x=1/0
 		for row in self.board:
 			complete=True
 			for block in row:
@@ -56,12 +55,13 @@ class Game:
 				newBoard.insert(0,[0 for i in range(WIDTH)])
 			else:
 				newBoard.append(row)
+
 		self.board=newBoard
 
 
 	def createTetromino(self):
 		#print(TetrominoFactory.types)
-		self.tetromino=TetrominoFactory.create_tetromino(TetrominoFactory.types[randint(0,len(TetrominoFactory.types)-1)], 1, 4)
+		self.tetromino=TetrominoFactory.create_tetromino(TetrominoFactory.types[randint(0,len(TetrominoFactory.types)-1)], 3, 0)
 		return True
 
 	def draw(self):
