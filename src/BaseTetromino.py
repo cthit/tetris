@@ -1,5 +1,6 @@
 import pygame
 from config import *
+from random import randint
 class BaseTetromino:
   """
   Base tetromino class, that contains shared logic for all tetrominoes.
@@ -9,6 +10,7 @@ class BaseTetromino:
     self.__x = x
     self.__y = y
     self.__tetromino = tetromino.copy()
+    self.color=(randint(100,255),randint(100,255),randint(100,255))
 
   def handle_keypress(self, key, board):
     if key is pygame.K_LEFT or key is pygame.K_a:
@@ -38,6 +40,9 @@ class BaseTetromino:
     """
     return self.__y
 
+  def get_color(self):
+    return self.color
+
   def get_coordinates(self):
     """
     Returns the coordinates of the tetromino in the form of a tuple of x and y.
@@ -66,7 +71,7 @@ class BaseTetromino:
         if figure[y][x] == 1:
           if (self.__x+x+toMove<0) or (self.__x+x+toMove>=WIDTH):
             return 0
-          if (board[self.__y+y][self.__x+x+toMove] == 1):
+          if (board[self.__y+y][self.__x+x+toMove] != 0):
             return 0
     return toMove
 
@@ -77,7 +82,7 @@ class BaseTetromino:
         if figure[y][x]==1:
           if (self.__y+y+toMove<0) or (self.__y+y+toMove>=HEIGHT):
             return False
-          if (board[self.__y+y+toMove][self.__x+x] == 1):
+          if (board[self.__y+y+toMove][self.__x+x] != 0):
             return False
     return True
 
