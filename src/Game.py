@@ -7,6 +7,7 @@ from TetrominoFactory import TetrominoFactory
 
 class Game:
 	def __init__(self):
+		self.completed=0;
 		self.board=self.createBoard()
 		pygame.init()
 		self.screen=pygame.display.set_mode(SSIZE)
@@ -55,6 +56,7 @@ class Game:
 					complete=False
 			if complete:
 				newBoard.insert(0,[0 for i in range(WIDTH)])
+				self.completed+=1
 			else:
 				newBoard.append(row)
 
@@ -69,6 +71,10 @@ class Game:
 	def draw(self):
 		# Draw screen background
 		self.screen.fill(BLACK)
+		for x in range(0, SWIDTH, BLOCKSIZE):
+			for y in range(0, SHEIGHT, BLOCKSIZE):
+				rect = pygame.Rect(x, y, BLOCKSIZE,BLOCKSIZE)
+				pygame.draw.rect(self.screen, WHITE, rect, 1)
 
 		# Draw tetromino
 		tetroColor=self.tetromino.get_color()
@@ -102,7 +108,7 @@ class Game:
 		return self.tetromino.move_down(self.board)
 
 	def update(self):
-		if self.tick>FRAMERATE*FALLRATE:
+		if self.tick>FRAMERATE*(FALLRATE/(1+self.completed*FALLINCREASE)):
 			self.tick=0
 			if not self.moveDown():
 				self.insertTetromino()
