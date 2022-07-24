@@ -94,6 +94,12 @@ class Game:
 				if self.board[y][x] != 0:
 
 					pygame.draw.rect(self.screen, self.board[y][x], pygame.Rect(x*BLOCKSIZE, y*BLOCKSIZE, BLOCKSIZE, BLOCKSIZE))
+
+		# Draw score
+		font = pygame.font.SysFont("monospace", 20)
+		text = font.render("Score: " + str(self.completed*10), True, WHITE)
+		self.screen.blit(text, [0, 0])
+
 		pygame.display.flip()
 
 	def getInput(self):
