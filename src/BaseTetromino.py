@@ -20,7 +20,7 @@ class BaseTetromino:
     elif key is pygame.K_DOWN or key is pygame.K_s:
       self.move_down(board)
     elif (key is pygame.K_UP) or (key is pygame.K_SPACE):
-      self.rotate()
+      self.rotate(board)
 
   def get_tetromino(self):
     """
@@ -86,6 +86,19 @@ class BaseTetromino:
             return False
     return True
 
+  def check_rotate(self,board):
+    figure=self.__rotate_clockwise(self.__tetromino)
+    for y in range(len(figure)):
+      for x in range(len(figure[0])):
+        if figure[y][x]==1:
+          if (self.__x+x<0) or (self.__x+x>=WIDTH):
+            return False
+          if (self.__y+y<0) or (self.__y+y>=HEIGHT):
+            return False
+          if (board[self.__y+y][self.__x+x] != 0):
+            return False
+    return True
+
   def move_down(self,board):
     """
     Moves the tetromino one row down.
@@ -95,11 +108,13 @@ class BaseTetromino:
       return True
     return False
 
-  def rotate(self):
+  def rotate(self, board):
     """
     Rotates the tetromino clockwise.
     """
-    self.__tetromino = self.__rotate_clockwise(self.__tetromino)
+    if self.check_rotate(board):
+      self.__tetromino = self.__rotate_clockwise(self.__tetromino)
+    return 0
 
   @staticmethod
   def __rotate_clockwise(tetromino: list[list[int]]):
