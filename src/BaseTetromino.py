@@ -10,7 +10,7 @@ class BaseTetromino:
     self.__x = x
     self.__y = y
     self.__tetromino = tetromino.copy()
-    self.color=(randint(100,255),randint(100,255),randint(100,255))
+    self.color=(randint(150,255),randint(150,255),randint(150,255))
 
   def handle_keypress(self, key, board):
     if key is pygame.K_LEFT or key is pygame.K_a:
