@@ -17,22 +17,16 @@ class BaseTetromino:
 
   def handle_keypress(self, key, board):
     """
-    Handles the keypresses for the tetromino.
+    Handles the keypresses to move the tetromino.
     """
-    if key is pygame.K_LEFT or key is pygame.K_a:
-      self.move_left(board)
-    elif key is pygame.K_RIGHT or key is pygame.K_d:
-      self.move_right(board)
-    elif key is pygame.K_DOWN or key is pygame.K_s:
-      self.move_down(board)
-    elif (key is pygame.K_UP) or (key is pygame.K_SPACE):
-      self.rotate(board)
+    #TODO
+
 
   def get_tetromino(self):
     """
     Dangerous: Returns a reference to the tetromino matrix.
     """
-    return self.__tetromino
+    #TODO
 
   def get_x(self):
     """
@@ -66,8 +60,6 @@ class BaseTetromino:
     """
     Moves the tetromino one column to the left.
     """
-    toMove=self.can_move_x(board,-1)
-    self.__x += toMove
 
   def can_move_x(self,board,toMove):
     """
@@ -88,15 +80,7 @@ class BaseTetromino:
     """
     Checks if possible to move the tetromino down.
     """
-    figure=self.__tetromino
-    for y in range(len(figure)):
-      for x in range(len(figure[0])):
-        if figure[y][x]==1:
-          if (self.__y+y+toMove<0) or (self.__y+y+toMove>=HEIGHT):
-            return False
-          if (board[self.__y+y+toMove][self.__x+x] != 0):
-            return False
-    return True
+    #TODO
 
   def can_rotate(self,board):
     """
