@@ -6,7 +6,7 @@ def tetris_loop():
 	game=Game()
 	#print(game.board)
 	#ddgame.board[1][5]=2
-	game.mainLoop()
+	game.main_loop()
 
 
 

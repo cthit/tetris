@@ -9,18 +9,21 @@ class Game:
 	def __init__(self):
 		self.completed=0
 		self.score=0
-		self.board=self.createBoard()
+		self.board=self.create_board()
 		pygame.init()
-		self.screen=pygame.display.set_mode(SCREENSIZE)
+		self.screen=pygame.display.set_mode(SCREEN_SIZE)
 		pygame.display.set_caption("Tetris!")
 		self.clock=pygame.time.Clock()
 		self.tick=0
-		self.reshuffleList()
-		self.createTetromino()
+		self.reshuffle_list()
+		self.create_tetromino()
 
 
 
-	def createBoard(self):
+	def create_board(self):
+		"""
+		Creates a board with all blocks set to 0
+		"""
 		board=[]
 		for y in range(HEIGHT):
 			column=[]
@@ -29,24 +32,30 @@ class Game:
 			board.append(column)
 		return board
 
-	def insertTetromino(self):
+	def insert_tetromino(self):
+		"""
+		Inserts the current tetromino into the board
+		"""
 		tetro=self.tetromino.get_tetromino()
 		color=self.tetromino.get_color()
 		color=(color[0]-90,color[1]-90,color[2]-90)
-		baseX=self.tetromino.get_x()
-		baseY=self.tetromino.get_y()
+		base_x=self.tetromino.get_x()
+		base_y=self.tetromino.get_y()
 		for y in range(len(tetro)):
-			currY=baseY+y
+			curr_y=base_y+y
 			for x in range(len(tetro[y])):
-				currX=baseX+x
+				curr_x=base_x+x
 				if tetro[y][x]==1:
-					self.board[currY][currX]=color
+					self.board[curr_y][curr_x]=color
 		print(self.board)
 
-	def mainLoop(self):
+	def main_loop(self):
+		"""
+		Main game loop
+		"""
 		self.running=True
 		while self.running:
-			self.getInput()
+			self.get_input()
 			self.tick+=1
 			self.update()
 			self.draw()
@@ -54,8 +63,11 @@ class Game:
 			self.clock.tick(FRAMERATE)
 
 
-	def deleteComplete(self):
-		newBoard=[]
+	def delete_complete(self):
+		"""
+		Deletes all complete rows
+		"""
+		new_board=[]
 		completed=0
 		for row in self.board:
 			complete=True
@@ -63,94 +75,127 @@ class Game:
 				if block ==0:
 					complete=False
 			if complete:
-				newBoard.insert(0,[0 for i in range(WIDTH)])
+				new_board.insert(0,[0 for i in range(WIDTH)])
 				completed+=1
 			else:
-				newBoard.append(row)
-		self.score+=POINTPERROW[completed%len(POINTPERROW)]
+				new_board.append(row)
+		self.score+=POINT_PER_ROW[completed%len(POINT_PER_ROW)]
 		if completed>0:
 			self.completed+=1
-		self.board=newBoard
+		self.board=new_board
 
 
-	def createTetromino(self):
-		#print(TetrominoFactory.types)
-		if len(self.tetList)==0:
-			self.reshuffleList()
-		#self.tetromino=TetrominoFactory.create_tetromino(TetrominoFactory.types[randint(0,len(TetrominoFactory.types)-1)], 3, 0)
-		self.tetromino=self.tetList.pop()
+	def create_tetromino(self):
+		"""
+		Creates a new tetromino
+		"""
+		if len(self.tet_list)==0:
+			self.reshuffle_list()
+		self.tetromino=self.tet_list.pop()
 		return True
 
-	def reshuffleList(self):
-		self.tetList=[]
+	def reshuffle_list(self):
+		"""
+		Shuffles the tetromino list
+		"""
+		self.tet_list=[]
 		for i in range(len(TetrominoFactory.types)):
-			self.tetList.append(TetrominoFactory.create_tetromino(TetrominoFactory.types[i], 3, 0))
-		shuffle(self.tetList)
+			self.tet_list.append(TetrominoFactory.create_tetromino(TetrominoFactory.types[i], 3, 0))
+		shuffle(self.tet_list)
 
 	def draw(self):
+		"""
+		Draws the screen
+		"""
 		# Draw screen background
-		self.drawScreen()
+		self.draw_screen_background()
 		# Draw tetromino
-		self.drawTetromino()
+		self.draw_tetromino()
 		# Draw static blocks
-		self.drawStaticBlocks()
+		self.draw_static_blocks()
 		# Draw score
-		self.drawScore()
+		self.draw_score()
 		pygame.display.flip()
 
-	def drawScreen(self):
+	def draw_screen_background(self):
+		"""
+		Draws the screen background
+		"""
 		self.screen.fill(BLACK)
-		for x in range(0, SCREENWIDTH, BLOCKSIZE):
-			for y in range(0, SCREENHEIGHT, BLOCKSIZE):
-				rect = pygame.Rect(x, y, BLOCKSIZE,BLOCKSIZE)
+		for x in range(0, SCREEN_WIDTH, BLOCK_SIZE):
+			for y in range(0, SCREEN_HEIGHT, BLOCK_SIZE):
+				rect = pygame.Rect(x, y, BLOCK_SIZE,BLOCK_SIZE)
 				pygame.draw.rect(self.screen, GRAY, rect, 1)
 
-	def drawTetromino(self):
-		tetroColor=self.tetromino.get_color()
-		(tetX,tetY)=self.tetromino.get_coordinates()
+	def draw_tetromino(self):
+		"""
+		Draws the current tetromino"""
+		tetro_color=self.tetromino.get_color()
+		(tet_x,tet_y)=self.tetromino.get_coordinates()
 		shape=self.tetromino.get_tetromino()
 		for y in range(len(shape)):
 			for x in range(len(shape[y])):
 				if(shape[y][x]) is 1:
 					#print(tetX+x)
-					pygame.draw.rect(self.screen,tetroColor,[(tetX+x)*BLOCKSIZE,(tetY+y)*BLOCKSIZE,BLOCKSIZE,BLOCKSIZE],0)
+					pygame.draw.rect(self.screen,tetro_color,[(tet_x+x)*BLOCK_SIZE,(tet_y+y)*BLOCK_SIZE,BLOCK_SIZE,BLOCK_SIZE],0)
 
-	def drawStaticBlocks(self):
+	def draw_static_blocks(self):
+		"""
+		Draws the static blocks
+		"""
 		for y in range(len(self.board)):
 			for x in range(len(self.board[y])):
 				if self.board[y][x] != 0:
 
-					pygame.draw.rect(self.screen, self.board[y][x], pygame.Rect(x*BLOCKSIZE, y*BLOCKSIZE, BLOCKSIZE, BLOCKSIZE))
+					pygame.draw.rect(self.screen, self.board[y][x], pygame.Rect(x*BLOCK_SIZE, y*BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE))
 
-	def drawScore(self):
-		font = pygame.font.SysFont(FONT, FONTSIZE)
+	def draw_score(self):
+		"""
+		Draws the score
+		"""
+		font = pygame.font.SysFont(FONT, FONT_SIZE)
 		text = font.render("Score: " + str(self.score), True, WHITE)
 		self.screen.blit(text, [0, 0])
 
-	def getInput(self):
+	def get_input(self):
+		"""
+		Gets input from the user
+		"""
 		for event in pygame.event.get():
 			if event.type == pygame.KEYDOWN:
 				if event.key is pygame.K_ESCAPE:
-					self.gameOver()
+					self.game_over()
 				else:
 					self.tetromino.handle_keypress(event.key,self.board)
 
-	def moveDown(self):
+	def move_down(self):
+		"""
+		Moves the tetromino down one row
+		"""
 		return self.tetromino.move_down(self.board)
 
-	def gameOver(self):
+	def game_over(self):
+		"""
+		Ends the game
+		"""
 		self.running=False
 
-	def shouldGameQuit(self):
+	def should_game_quit(self):
+		"""
+		Checks if the game is filled to the top
+		"""
 		if self.board[0][4]!=0:
-			self.gameOver()
+			self.game_over()
 
 	def update(self):
-		if self.tick>FRAMERATE*(FALLRATE/(1+self.completed*FALLINCREASE)):
+		"""
+		Updates game if new tick is reached
+		"""
+		if self.tick>FRAMERATE*(FALL_RATE/(1+self.completed*FALL_INCREASE)):
 			self.tick=0
-			if not self.moveDown():
-				self.insertTetromino()
-				self.shouldGameQuit()
-				self.deleteComplete()
-				if not self.createTetromino():
-					self.gameOver()
+			if not self.move_down():
+				self.insert_tetromino()
+				self.should_game_quit()
+				self.delete_complete()
+				if not self.create_tetromino():
+					self.game_over()

@@ -7,12 +7,18 @@ class BaseTetromino:
   """
 
   def __init__(self, x: int, y: int, tetromino: list[list[int]]):
+    """
+    Initializes the tetromino.
+    """
     self.__x = x
     self.__y = y
     self.__tetromino = tetromino.copy()
     self.color=(randint(150,255),randint(150,255),randint(150,255))
 
   def handle_keypress(self, key, board):
+    """
+    Handles the keypresses for the tetromino.
+    """
     if key is pygame.K_LEFT or key is pygame.K_a:
       self.move_left(board)
     elif key is pygame.K_RIGHT or key is pygame.K_d:
@@ -53,17 +59,20 @@ class BaseTetromino:
     """
     Moves the tetromino one column to the right.
     """
-    toMove=self.check_move_x(board,1)
+    toMove=self.can_move_x(board,1)
     self.__x += toMove
 
   def move_left(self, board):
     """
     Moves the tetromino one column to the left.
     """
-    toMove=self.check_move_x(board,-1)
+    toMove=self.can_move_x(board,-1)
     self.__x += toMove
 
-  def check_move_x(self,board,toMove):
+  def can_move_x(self,board,toMove):
+    """
+    Checks if possible to move the tetromino to the right or left.
+    """
     figure=self.__tetromino
     for y in range(len(figure)):
       for x in range(len(figure[0])):
@@ -75,7 +84,10 @@ class BaseTetromino:
             return 0
     return toMove
 
-  def check_move_y(self,board,toMove):
+  def can_move_down(self,board,toMove):
+    """
+    Checks if possible to move the tetromino down.
+    """
     figure=self.__tetromino
     for y in range(len(figure)):
       for x in range(len(figure[0])):
@@ -86,7 +98,10 @@ class BaseTetromino:
             return False
     return True
 
-  def check_rotate(self,board):
+  def can_rotate(self,board):
+    """
+    Checks if possible to rotate the tetromino clockwise.
+    """
     figure=self.__rotate_clockwise(self.__tetromino)
     for y in range(len(figure)):
       for x in range(len(figure[0])):
@@ -103,7 +118,7 @@ class BaseTetromino:
     """
     Moves the tetromino one row down.
     """
-    if self.check_move_y(board,1):
+    if self.can_move_down(board,1):
       self.__y += 1
       return True
     return False
@@ -112,13 +127,13 @@ class BaseTetromino:
     """
     Rotates the tetromino clockwise.
     """
-    if self.check_rotate(board):
+    if self.can_rotate(board):
       self.__tetromino = self.__rotate_clockwise(self.__tetromino)
     return 0
 
   @staticmethod
   def __rotate_clockwise(tetromino: list[list[int]]):
     """
-    Rotates the tetromino clockwise.
+    Rotates the tetromino clockwise. Do not touch this function.
     """
     return list(zip(*tetromino[::-1]))
