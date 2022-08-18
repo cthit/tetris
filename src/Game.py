@@ -11,9 +11,9 @@ class Game:
 		self.score=0
 		self.board=self.createBoard()
 		pygame.init()
-		self.screen=pygame.display.set_mode(SSIZE)
+		self.screen=pygame.display.set_mode(SCREENSIZE)
 		pygame.display.set_caption("Tetris!")
-		self.gClock=pygame.time.Clock()
+		self.clock=pygame.time.Clock()
 		self.tick=0
 		self.reshuffleList()
 		self.createTetromino()
@@ -21,7 +21,13 @@ class Game:
 
 
 	def createBoard(self):
-		return [[0 for x in range(WIDTH)] for y in range(HEIGHT)]
+		board=[]
+		for y in range(HEIGHT):
+			column=[]
+			for x in range(WIDTH):
+				column.append(0)
+			board.append(column)
+		return board
 
 	def insertTetromino(self):
 		tetro=self.tetromino.get_tetromino()
@@ -38,20 +44,19 @@ class Game:
 		print(self.board)
 
 	def mainLoop(self):
-		while True:
+		self.running=True
+		while self.running:
 			self.getInput()
 			self.tick+=1
 			self.update()
 			self.draw()
 			#print(self.tetromino.get_coordinates())
-			self.gClock.tick(FRAMERATE)
+			self.clock.tick(FRAMERATE)
 
 
 	def deleteComplete(self):
 		newBoard=[]
 		completed=0
-		if self.board[0][4]!=0:
-			x=1/0
 		for row in self.board:
 			complete=True
 			for block in row:
@@ -95,8 +100,8 @@ class Game:
 
 	def drawScreen(self):
 		self.screen.fill(BLACK)
-		for x in range(0, SWIDTH, BLOCKSIZE):
-			for y in range(0, SHEIGHT, BLOCKSIZE):
+		for x in range(0, SCREENWIDTH, BLOCKSIZE):
+			for y in range(0, SCREENHEIGHT, BLOCKSIZE):
 				rect = pygame.Rect(x, y, BLOCKSIZE,BLOCKSIZE)
 				pygame.draw.rect(self.screen, GRAY, rect, 1)
 
@@ -133,11 +138,19 @@ class Game:
 	def moveDown(self):
 		return self.tetromino.move_down(self.board)
 
+	def gameOver(self):
+		self.running=False
+
+	def shouldGameQuit(self):
+		if self.board[0][4]!=0:
+			self.gameOver()
+
 	def update(self):
 		if self.tick>FRAMERATE*(FALLRATE/(1+self.completed*FALLINCREASE)):
 			self.tick=0
 			if not self.moveDown():
 				self.insertTetromino()
+				self.shouldGameQuit()
 				self.deleteComplete()
 				if not self.createTetromino():
 					self.gameOver()
