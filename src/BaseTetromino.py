@@ -19,14 +19,14 @@ class BaseTetromino:
     """
     Handles the keypresses to move the tetromino.
     """
-    #TODO
+    #TODO: Implement this feature
 
 
   def get_tetromino(self):
     """
     Dangerous: Returns a reference to the tetromino matrix.
     """
-    #TODO
+    #TODO: Implement this feature
 
   def get_x(self):
     """
@@ -80,7 +80,7 @@ class BaseTetromino:
     """
     Checks if possible to move the tetromino down.
     """
-    #TODO
+    #TODO: Implement this feature
 
   def can_rotate(self,board):
     """
