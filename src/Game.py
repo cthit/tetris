@@ -30,18 +30,7 @@ class Game:
 		"""
 		Inserts the current tetromino into the board
 		"""
-		tetro=self.tetromino.get_tetromino()
-		color=self.tetromino.get_color()
-		color=(color[0]-90,color[1]-90,color[2]-90)
-		base_x=self.tetromino.get_x()
-		base_y=self.tetromino.get_y()
-		for y in range(len(tetro)):
-			curr_y=base_y+y
-			for x in range(len(tetro[y])):
-				curr_x=base_x+x
-				if tetro[y][x]==1:
-					self.board[curr_y][curr_x]=color
-		print(self.board)
+		#TODO: this
 
 	def main_loop(self):
 		"""
@@ -60,22 +49,7 @@ class Game:
 		"""
 		Deletes all complete rows
 		"""
-		new_board=[]
-		completed=0
-		for row in self.board:
-			complete=True
-			for block in row:
-				if block ==0:
-					complete=False
-			if complete:
-				new_board.insert(0,[0 for i in range(WIDTH)])
-				completed+=1
-			else:
-				new_board.append(row)
-		self.score+=POINT_PER_ROW[completed%len(POINT_PER_ROW)]
-		if completed>0:
-			self.completed+=1
-		self.board=new_board
+		#TODO: this
 
 
 	def create_tetromino(self):
