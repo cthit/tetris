@@ -65,16 +65,7 @@ class BaseTetromino:
     """
     Checks if possible to move the tetromino to the right or left.
     """
-    figure=self.__tetromino
-    for y in range(len(figure)):
-      for x in range(len(figure[0])):
-        print(f"y:{self.__y+y}, x:{self.__x+x+toMove}")
-        if figure[y][x] == 1:
-          if (self.__x+x+toMove<0) or (self.__x+x+toMove>=WIDTH):
-            return 0
-          if (board[self.__y+y][self.__x+x+toMove] != 0):
-            return 0
-    return toMove
+    #TODO: Implement this feature
 
   def can_move_down(self,board,toMove):
     """

@@ -41,7 +41,6 @@ class Game:
 				curr_x=base_x+x
 				if tetro[y][x]==1:
 					self.board[curr_y][curr_x]=color
-		print(self.board)
 
 	def main_loop(self):
 		"""
@@ -52,7 +51,6 @@ class Game:
 			self.tick+=1
 			self.update()
 			self.draw()
-			#print(self.tetromino.get_coordinates())
 			self.clock.tick(FRAMERATE)
 
 
