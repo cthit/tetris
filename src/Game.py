@@ -24,13 +24,7 @@ class Game:
 		"""
 		Creates a board with all blocks set to 0
 		"""
-		board=[]
-		for y in range(HEIGHT):
-			column=[]
-			for x in range(WIDTH):
-				column.append(0)
-			board.append(column)
-		return board
+		#TODO: implement this
 
 	def insert_tetromino(self):
 		"""
@@ -53,8 +47,7 @@ class Game:
 		"""
 		Main game loop
 		"""
-		self.running=True
-		while self.running:
+		while True:
 			self.get_input()
 			self.tick+=1
 			self.update()
@@ -98,10 +91,7 @@ class Game:
 		"""
 		Shuffles the tetromino list
 		"""
-		self.tet_list=[]
-		for i in range(len(TetrominoFactory.types)):
-			self.tet_list.append(TetrominoFactory.create_tetromino(TetrominoFactory.types[i], 3, 0))
-		shuffle(self.tet_list)
+		#TODO: implement this
 
 	def draw(self):
 		"""
@@ -136,18 +126,13 @@ class Game:
 		for y in range(len(shape)):
 			for x in range(len(shape[y])):
 				if(shape[y][x]) is 1:
-					#print(tetX+x)
 					pygame.draw.rect(self.screen,tetro_color,[(tet_x+x)*BLOCK_SIZE,(tet_y+y)*BLOCK_SIZE,BLOCK_SIZE,BLOCK_SIZE],0)
 
 	def draw_static_blocks(self):
 		"""
 		Draws the static blocks
 		"""
-		for y in range(len(self.board)):
-			for x in range(len(self.board[y])):
-				if self.board[y][x] != 0:
-
-					pygame.draw.rect(self.screen, self.board[y][x], pygame.Rect(x*BLOCK_SIZE, y*BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE))
+		#TODO: implement this
 
 	def draw_score(self):
 		"""
@@ -178,7 +163,7 @@ class Game:
 		"""
 		Ends the game
 		"""
-		self.running=False
+		#TODO: implement this
 
 	def should_game_quit(self):
 		"""
