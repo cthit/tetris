@@ -41,7 +41,6 @@ class Game:
 			self.tick+=1
 			self.update()
 			self.draw()
-			#print(self.tetromino.get_coordinates())
 			self.clock.tick(FRAMERATE)
 
 
