@@ -60,6 +60,7 @@ class BaseTetromino:
     """
     Moves the tetromino one column to the left.
     """
+    #TODO: add stuff
 
   def can_move_x(self,board,toMove):
     """
@@ -68,7 +69,6 @@ class BaseTetromino:
     figure=self.__tetromino
     for y in range(len(figure)):
       for x in range(len(figure[0])):
-        print(f"y:{self.__y+y}, x:{self.__x+x+toMove}")
         if figure[y][x] == 1:
           if (self.__x+x+toMove<0) or (self.__x+x+toMove>=WIDTH):
             return 0

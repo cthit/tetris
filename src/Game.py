@@ -134,7 +134,6 @@ class Game:
 		for y in range(len(shape)):
 			for x in range(len(shape[y])):
 				if(shape[y][x]) is 1:
-					#print(tetX+x)
 					pygame.draw.rect(self.screen,tetro_color,[(tet_x+x)*BLOCK_SIZE,(tet_y+y)*BLOCK_SIZE,BLOCK_SIZE,BLOCK_SIZE],0)
 
 	def draw_static_blocks(self):
