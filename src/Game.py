@@ -160,10 +160,12 @@ class Game:
 		"""
 		for event in pygame.event.get():
 			if event.type == pygame.KEYDOWN:
-				if event.key is pygame.K_ESCAPE or event.type is pygame.QUIT:
+				if event.key is pygame.K_ESCAPE:
 					self.game_over()
 				else:
 					self.tetromino.handle_keypress(event.key,self.board)
+			elif event.type == pygame.QUIT:
+				self.game_over()
 
 	def move_down(self):
 		"""
