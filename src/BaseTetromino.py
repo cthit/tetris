@@ -19,13 +19,13 @@ class BaseTetromino:
     """
     Handles the keypresses for the tetromino.
     """
-    if key is pygame.K_LEFT or key is pygame.K_a:
+    if key is pygame.K_a:
       self.move_left(board)
-    elif key is pygame.K_RIGHT or key is pygame.K_d:
+    elif key is pygame.K_d:
       self.move_right(board)
-    elif key is pygame.K_DOWN or key is pygame.K_s:
+    elif key is pygame.K_s:
       self.move_down(board)
-    elif (key is pygame.K_UP) or (key is pygame.K_SPACE):
+    elif (key is pygame.K_SPACE):
       self.rotate(board)
 
   def get_tetromino(self):
