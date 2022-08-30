@@ -125,6 +125,8 @@ class Game:
 					self.game_over()
 				else:
 					self.tetromino.handle_keypress(event.key,self.board)
+			elif event.type == pygame.QUIT:
+				self.game_over()
 
 	def move_down(self):
 		"""
